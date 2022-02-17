@@ -19,7 +19,6 @@ namespace enivesh_web_form.Services
         public static Dictionary<int, PersonalInformationModel> GetPersonalInformation(int userID)
         {
             SqlConnection conn = new SqlConnection(Properties.Settings.Default.ConnectionString);
-            Application app = new Application();
             SqlDataReader rdr = null;
             Dictionary<int, PersonalInformationModel> personalInformationModels = new Dictionary<int, PersonalInformationModel>();
             string result = String.Empty;
@@ -29,13 +28,12 @@ namespace enivesh_web_form.Services
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
                 conn.Open();
-                rdr = app.GetData(cmd);
+                rdr = Application.GetData(cmd);
                 PersonalInformationModel.getModel(ref personalInformationModels, rdr, userID);
             }
             catch (Exception ex)
             {
-                Log errorLog = new Log();
-                errorLog.LogMessage(ex.Message);
+                Log.LogMessage(ex.Message);
             }
             finally
             {
@@ -77,8 +75,7 @@ namespace enivesh_web_form.Services
             }
             catch (Exception ex)
             {
-                Log errorLog = new Log();
-                errorLog.LogMessage(ex.Message);
+                Log.LogMessage(ex.Message);
             }
             finally
             {

@@ -12,30 +12,25 @@ using enivesh_web_form.Models;
 
 namespace enivesh_web_form.Controllers
 {
-    public class MyModel
-    {
-        public string webFormData { get; set; }
-    }
     public class ApplicationController : ApiController
     {
         [EnableCors("*","*","*")]
         [System.Web.Http.Route("api/insertData")]
         [HttpPost]
-        public string InsertData([FromBody] MyModel formData)
+        public string InsertData([FromBody] RequestDataModel webFormData)
         {
             UserModel userModel = new UserModel();
             try
             {
-                // First add user to master table
+                // First add user to master table and extract the latest entered data
                 userModel.userID = UserService.InsUser();
-                //Newtonsoft.Json.Linq.JObject.Parse(key.key)["personalInfo"][0]["firstName"].ToString()
-                JObject formObject = JObject.Parse(formData.webFormData);
+
+                JObject formObject = JObject.Parse(webFormData.webFormData);
                 PersonController.InsPersonalInformationModel(formObject["personalInfo"], userModel.userID);
             }
             catch (Exception ex)
             {
-                Log errorLog = new Log();
-                errorLog.LogMessage(ex.Message);
+                Log.LogMessage(ex.Message);
             }
             return "false";
         }

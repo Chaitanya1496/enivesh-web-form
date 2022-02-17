@@ -15,7 +15,7 @@ namespace enivesh_web_form.Controllers
 {
     public class PersonController : ApiController
     {
-        public string GetPersonModel(int userID)
+        public static string GetPersonModel(int userID)
         {
             Dictionary<int, PersonalInformationModel> personalInformationModels = PersonalInformationService.GetPersonalInformation(userID);
             string jsonData = JsonConvert.SerializeObject(personalInformationModels);

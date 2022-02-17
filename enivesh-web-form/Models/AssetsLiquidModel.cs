@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.SqlClient;
 
 namespace enivesh_web_form.Models
 {
@@ -14,5 +15,10 @@ namespace enivesh_web_form.Models
         public double bankFdSelf { get; set; }
         public double bankFdSpouse { get; set; }
         public string bankFdRemarks { get; set; }
+
+        public static AssetsLiquidModel getModel(ref AssetsLiquidModel model, SqlDataReader rdr)
+        {
+
+        }
     }
 }

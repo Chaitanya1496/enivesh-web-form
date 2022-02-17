@@ -10,7 +10,7 @@ namespace enivesh_web_form.Framework
 {
     public class Application
     {
-        public SqlDataReader GetData(SqlCommand cmd)
+        public static SqlDataReader GetData(SqlCommand cmd)
         {
             SqlDataReader rdr = null;
             try
