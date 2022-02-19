@@ -9,18 +9,16 @@ using enivesh_web_form.StoredProcedures;
 using enivesh_web_form.Framework;
 using enivesh_web_form.Constants;
 using enivesh_web_form.ErrorLog;
-using enivesh_web_form.Constants;
-using System.Collections.Generic;
 
 namespace enivesh_web_form.Services
 {
     public class PersonalInformationService
     {
-        public static Dictionary<int, PersonalInformationModel> GetPersonalInformation(int userID)
+        public static DataSet GetPersonalInformation(int userID)
         {
+            DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(Properties.Settings.Default.ConnectionString);
             SqlDataReader rdr = null;
-            Dictionary<int, PersonalInformationModel> personalInformationModels = new Dictionary<int, PersonalInformationModel>();
             string result = String.Empty;
             try
             {
@@ -29,7 +27,8 @@ namespace enivesh_web_form.Services
                 cmd.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
                 conn.Open();
                 rdr = Application.GetData(cmd);
-                PersonalInformationModel.getModel(ref personalInformationModels, rdr, userID);
+                ds.Tables.Add(AppConstant.dsPersonalInformation);
+                ds.Tables[AppConstant.dsPersonalInformation].Load(rdr);
             }
             catch (Exception ex)
             {
@@ -39,7 +38,7 @@ namespace enivesh_web_form.Services
             {
                 conn.Close();
             }
-            return personalInformationModels;
+            return ds;
         }
         public static void InsUpdPersonalInformation(string operationType, PersonalInformationModel model)
         {
@@ -71,7 +70,7 @@ namespace enivesh_web_form.Services
                 cmd.Parameters.Add("@designation", SqlDbType.VarChar).Value = model.designation;
                 cmd.Parameters.Add("@operationType", SqlDbType.VarChar).Value = operationType;
                 conn.Open();
-                result = Application.Save(ref cmd);
+                Application.Save(ref cmd);
             }
             catch (Exception ex)
             {

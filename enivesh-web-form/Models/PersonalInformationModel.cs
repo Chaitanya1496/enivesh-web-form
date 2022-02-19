@@ -5,6 +5,10 @@ using System.Web;
 using System.Data.SqlClient;
 using enivesh_web_form.Constants;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using enivesh_web_form.Services;
+using System.Data;
+using enivesh_web_form.Models;
 
 namespace enivesh_web_form.Models
 {
@@ -30,52 +34,69 @@ namespace enivesh_web_form.Models
         public string employer { get; set; }
         public string designation { get; set; }
 
-        public static Dictionary<int, PersonalInformationModel> getModel(ref Dictionary<int, PersonalInformationModel> personalInformationModels, SqlDataReader rdr, int userID)
+        public static string getData(int userID)
+        {
+            Dictionary<int, PersonalInformationModel> personalInformationModels = new Dictionary<int, PersonalInformationModel>();
+            DataSet personalInformationDataSet = PersonalInformationService.GetPersonalInformation(userID);
+            getModel(ref personalInformationModels, personalInformationDataSet, userID);
+            string jsonData = JsonConvert.SerializeObject(personalInformationModels);
+            return jsonData;
+        }
+
+        public static void insertData(JToken data, int userID)
         {
             int count = 1;
-            if (rdr != null && rdr.HasRows)
+            foreach (JToken item in data)
             {
-                while (rdr.Read())
+                PersonalInformationModel personalInfoModel = populateModel(item, count, userID);
+                PersonalInformationService.InsUpdPersonalInformation(AppConstant.insertOperation, personalInfoModel);
+                count += 1;
+            }
+        }
+
+        public static Dictionary<int, PersonalInformationModel> getModel(ref Dictionary<int, PersonalInformationModel> personalInformationModels, DataSet personalInformationDataSet, int userID)
+        {
+            int count = 1;
+            foreach (DataRow data in personalInformationDataSet.Tables[AppConstant.dsPersonalInformation].Rows)
+            {
+                PersonalInformationModel model = new PersonalInformationModel();
+                model.userID = userID;
+                model.individualCount = (int)data["IndividualCount"];
+                model.firstName = (string)data["FirstName"];
+                model.lastName = (string)data["LastName"];
+                model.dob = data["DoB"].ToString();
+                if ((int)data["Gender"] == (int)Gender.Female)
+                    model.gender = AppConstant.female;
+                else
+                    model.gender = AppConstant.male;
+
+                if ((int)data["Smoker"] == (int)Smoker.nonSmoker)
+                    model.smoker = AppConstant.nonSmoker;
+                else
+                    model.smoker = AppConstant.smoker;
+
+                if ((int)data["MaritalStatus"] == (int)MaritalStatus.Unmarried)
                 {
-                    PersonalInformationModel model = new PersonalInformationModel();
-                    model.userID = userID;
-                    model.individualCount = (int)rdr["IndividualCount"];
-                    model.firstName = (string)rdr["FirstName"];
-                    model.lastName = (string)rdr["LastName"];
-                    model.dob = rdr["DoB"].ToString();
-                    if ((int)rdr["Gender"] == (int)Gender.Female)
-                        model.gender = AppConstant.female;
-                    else
-                        model.gender = AppConstant.male;
-
-                    if ((int)rdr["Smoker"] == (int)Smoker.nonSmoker)
-                        model.smoker = AppConstant.nonSmoker;
-                    else
-                        model.smoker = AppConstant.smoker;
-
-                    if ((int)rdr["MaritalStatus"] == (int)MaritalStatus.Unmarried)
-                    {
-                        model.maritalStatus = AppConstant.unmarried;
-                        model.dateOfMarriage = string.Empty;
-                    }
-                    else
-                    {
-                        model.maritalStatus = AppConstant.married;
-                        model.dateOfMarriage = rdr["DateOfMarriage"].ToString();
-                    }
-                    model.retirementAge = (int)rdr["DesiredRetirementAge"];
-                    model.lifeExpectancy = (int)rdr["LifeExpectancy"];
-                    model.homeAddress = (string)rdr["HomeAddress"];
-                    model.city = (string)rdr["City"];
-                    model.state = (string)rdr["State"];
-                    model.zip = rdr["Zip"].ToString();
-                    model.phoneNumber = rdr["PhoneNumber"].ToString();
-                    model.emailAddress = (string)rdr["EmailAddress"];
-                    model.employer = (string)rdr["Employer"];
-                    model.designation = (string)rdr["Designation"];
-                    personalInformationModels.Add(count, model);
-                    count += 1;
+                    model.maritalStatus = AppConstant.unmarried;
+                    model.dateOfMarriage = string.Empty;
                 }
+                else
+                {
+                    model.maritalStatus = AppConstant.married;
+                    model.dateOfMarriage = data["DateOfMarriage"].ToString();
+                }
+                model.retirementAge = (int)data["DesiredRetirementAge"];
+                model.lifeExpectancy = (int)data["LifeExpectancy"];
+                model.homeAddress = (string)data["HomeAddress"];
+                model.city = (string)data["City"];
+                model.state = (string)data["State"];
+                model.zip = data["Zip"].ToString();
+                model.phoneNumber = data["PhoneNumber"].ToString();
+                model.emailAddress = (string)data["EmailAddress"];
+                model.employer = (string)data["Employer"];
+                model.designation = (string)data["Designation"];
+                personalInformationModels.Add(count, model);
+                count += 1;
             }
             return personalInformationModels;
         }

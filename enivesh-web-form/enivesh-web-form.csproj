@@ -170,8 +170,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\AssetsLiquidController.cs" />
-    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="ErrorLog\Log.cs" />
     <Compile Include="Framework\Application.cs" />
     <Compile Include="Global.asax.cs">
