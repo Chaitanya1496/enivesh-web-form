@@ -29,8 +29,7 @@ namespace enivesh_web_form.Services
             }
             catch (Exception ex)
             {
-                Log errorLog = new Log();
-                errorLog.LogMessage(ex.Message);
+                Log.LogMessage(ex.Message);
             }
             finally
             {

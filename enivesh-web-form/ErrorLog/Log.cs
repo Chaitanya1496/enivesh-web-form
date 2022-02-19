@@ -8,7 +8,7 @@ namespace enivesh_web_form.ErrorLog
 {
     public class Log
     {
-        public void LogMessage(string errorMessage)
+        public static void LogMessage(string errorMessage)
         {
             using (EventLog eventLog = new EventLog("Application"))
             {
