@@ -1061,7 +1061,7 @@ CREATE PROCEDURE InsUpdLifeInsurance
     @policyNumber int,
     @term float,
     @insuranceCompany varchar(MAX),
-    @insured money,
+    @insured bit,
     @startDate date,
     @annualPremium money,
     @sumAssured money,
