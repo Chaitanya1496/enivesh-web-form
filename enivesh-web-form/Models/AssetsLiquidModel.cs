@@ -26,18 +26,18 @@ namespace enivesh_web_form.Models
             AssetsLiquidModel assetsLiquidModel = new AssetsLiquidModel();
             DataSet assetsLiquidDataSet = AssetsLiquidService.GetAssetsLiquid(userID);
             getModel(ref assetsLiquidModel, assetsLiquidDataSet, userID);
-            string assetsLiquidData = JsonConvert.SerializeObject(assetsLiquidModel);
-            return assetsLiquidData;
+            return JsonConvert.SerializeObject(assetsLiquidModel);
         }
 
         public static void insertData(JToken data, int userID)
         {
             AssetsLiquidModel model = AssetsLiquidModel.populateModel(data[0], userID);
+            AssetsLiquidService.InsUpdAssetsLiquid(AppConstant.insertOperation, model);
         }
 
         public static void getModel(ref AssetsLiquidModel assetsLiquidModel, DataSet assetsLiquidDataSet, int userID)
         {
-            if (assetsLiquidDataSet != null && assetsLiquidDataSet.Tables[AppConstant.dsAssetsLiquid].Rows.Count > 0)
+            if (assetsLiquidDataSet != null && assetsLiquidDataSet.Tables[AppConstant.dsAssetsLiquid] != null && assetsLiquidDataSet.Tables[AppConstant.dsAssetsLiquid].Rows.Count > 0)
             {
                 foreach (DataRow data in assetsLiquidDataSet.Tables[AppConstant.dsAssetsLiquid].Rows)
                 {
