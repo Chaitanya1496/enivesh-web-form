@@ -32,6 +32,13 @@ namespace enivesh_web_form.Controllers
 
                 // Insert Personal Information
                 PersonalInformationModel.insertData(formObject[AppConstant.formPersonalInformation], userModel.userID);
+
+                // Insert Assets Liquid
+                AssetsLiquidModel.insertData(formObject[AppConstant.formLiquidAssets], userModel.userID);
+
+                // Insert Assets Investments
+                AssetsInvestmentModel.insertData(formObject[AppConstant.formInvestmentAssets], userModel.userID);
+
             }
             catch (Exception ex)
             {
@@ -55,6 +62,10 @@ namespace enivesh_web_form.Controllers
                 // Fetch assets liquid information
                 string assetsLiquidData = AssetsLiquidModel.getData(userID);
                 userData.Add(AppConstant.formLiquidAssets, assetsLiquidData);
+
+                // Fetch assets investments information
+                string assetsInvestmentData = AssetsInvestmentModel.getData(userID);
+                userData.Add(AppConstant.formInvestmentAssets, assetsInvestmentData);
 
                 userJsonData = JsonConvert.SerializeObject(personalInformationData);
             }

@@ -32,6 +32,7 @@ namespace enivesh_web_form.Constants
         #region DatasetNames
         public static string dsPersonalInformation = "PersonalInformation";
         public static string dsAssetsLiquid = "AssetsLiquid";
+        public static string dsAssetsInvestment = "AssetsInvestment";
         #endregion
 
         #region ReactForms

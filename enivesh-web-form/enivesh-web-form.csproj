@@ -195,6 +195,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\AssetsInvestmentService.cs" />
     <Compile Include="Services\AssetsLiquidService.cs" />
     <Compile Include="Services\PersonalInformationService.cs" />
     <Compile Include="Services\UserService.cs" />
