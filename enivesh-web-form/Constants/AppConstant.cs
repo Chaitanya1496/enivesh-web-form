@@ -33,6 +33,17 @@ namespace enivesh_web_form.Constants
         public static string dsPersonalInformation = "PersonalInformation";
         public static string dsAssetsLiquid = "AssetsLiquid";
         public static string dsAssetsInvestment = "AssetsInvestment";
+        public static string dsAssetsFixed = "AssetsFixed";
+        public static string dsAssetsOthers = "AssetsOther";
+        public static string dsLiabilities = "Liabilities";
+        public static string dsLifeInsurance = "LifeInsurance";
+        public static string dsMediclaim = "Mediclaim";
+        public static string dsChildrenCollege = "ChildrenCollegePlanning";
+        public static string dsPensionIncome = "PensionIncome";
+        public static string dsOtherIncome = "OtherIncome";
+        public static string dsRentalRealEstate = "RealEstate";
+        public static string dsPersonalExpense = "PersonalExpense";
+        public static string dsLargeExpenditures = "LargeExpenditures";
         #endregion
 
         #region ReactForms
@@ -51,6 +62,11 @@ namespace enivesh_web_form.Constants
         public static string formPersonalExpense = "personalExpenses";
         public static string formLargeExpenditure = "largeExpenditure";
         #endregion
+
+        #region YesNo
+        public static string yes = "Yes";
+        public static string no = "No";
+        #endregion
     }
     enum Gender
     {
@@ -68,5 +84,11 @@ namespace enivesh_web_form.Constants
     {
         nonSmoker = 0,
         smoker = 1
+    }
+
+    enum YesNo
+    {
+        no = 0,
+        yes = 1
     }
 }
