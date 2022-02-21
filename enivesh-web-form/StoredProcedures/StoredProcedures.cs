@@ -1951,7 +1951,7 @@ CREATE PROCEDURE InsUpdLargeExpenditure
 	-- Parameters
     @userID int,
     @largeExpenditureCount int,
-    @expense money,
+    @expense varchar(50),
     @cost money,
     @year int,
     @frequency int,
